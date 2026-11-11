@@ -17,8 +17,9 @@ def load_model():
 
 try:
     model = load_model()
-except FileNotFoundError:
-    st.error(f"Model not found at {MODEL_PATH}. Run the notebook cell that saves the .pkl first.")
+except Exception as e:
+    st.error(f"Could not load model from {MODEL_PATH}")
+    st.exception(e)
     st.stop()
 
 st.title("Titanic Survival Predictor")
@@ -34,7 +35,7 @@ with col1:
 
 with col2:
     parch = st.number_input("Parents/Children aboard", min_value=0, max_value=6, value=0, step=1)
-    fare = st.number_input("Fare", min_value=0.0, max_value=520.0, value=32.0, step=1.0)
+    fare = st.slider("Fare", min_value=0.0, max_value=520.0, value=32.0, step=1.0)
     embarked = st.selectbox("Port of embarkation", options=["S", "C", "Q"])
     alone = st.checkbox("Travelling alone")
 
